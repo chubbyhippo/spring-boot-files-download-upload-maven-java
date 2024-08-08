@@ -11,6 +11,5 @@ public class FileController {
     @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file) {
         return "File uploaded successfully: " + file.getOriginalFilename();
-
     }
 }
