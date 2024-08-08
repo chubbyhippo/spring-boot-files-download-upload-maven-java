@@ -9,7 +9,6 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class FileSystemStorageServiceTest {
     private FileSystemStorageService storageService;
