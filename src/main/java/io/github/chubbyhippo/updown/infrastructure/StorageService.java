@@ -1,6 +1,5 @@
 package io.github.chubbyhippo.updown.infrastructure;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ public class StorageService {
 
     private final Path rootLocation;
 
-    @Autowired
     public StorageService(StorageProperties properties) {
 
         if (properties.location().trim().isEmpty()) {
