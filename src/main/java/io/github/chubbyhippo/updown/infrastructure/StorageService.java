@@ -6,10 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class FileSystemStorageService {
+public class StorageService {
     private final Path rootLocation;
 
-    public FileSystemStorageService(String location) {
+    public StorageService(String location) {
         this.rootLocation = Paths.get(location);
     }
 
