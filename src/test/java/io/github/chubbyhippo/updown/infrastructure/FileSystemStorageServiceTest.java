@@ -45,7 +45,7 @@ class FileSystemStorageServiceTest {
         storageService.delete(filename);
 
         assertThatThrownBy(() -> storageService.read(filename))
-                .isInstanceOf(FileSystemStorageService.StorageException.class)
+                .isInstanceOf(StorageException.class)
                 .hasMessageContaining("Failed to read file");
     }
 
