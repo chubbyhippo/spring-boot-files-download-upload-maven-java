@@ -10,15 +10,15 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class FileSystemStorageServiceTest {
-    private FileSystemStorageService storageService;
+class StorageServiceTest {
+    private StorageService storageService;
 
     @TempDir
     private Path tempDir;
 
     @BeforeEach
     void setUp() {
-        storageService = new FileSystemStorageService(tempDir.toString());
+        storageService = new StorageService(tempDir.toString());
         storageService.init();
     }
 
