@@ -58,10 +58,4 @@ public class FileSystemStorageService {
             throw new StorageException("Failed to read stored files", e);
         }
     }
-
-    public static class StorageException extends RuntimeException {
-        public StorageException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
 }
