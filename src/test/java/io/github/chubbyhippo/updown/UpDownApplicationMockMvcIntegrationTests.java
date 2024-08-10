@@ -26,7 +26,7 @@ class UpDownApplicationMockMvcIntegrationTests {
     void shouldUploadFile() throws Exception {
         var mockMultipartFile = new MockMultipartFile(
                 "file",
-                "test.txt",
+                "hello.txt",
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
         );
@@ -34,8 +34,31 @@ class UpDownApplicationMockMvcIntegrationTests {
                         .file(mockMultipartFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
-                .andExpect(content().string("File uploaded successfully: test.txt"));
+                .andExpect(content().string("File uploaded successfully: hello.txt"));
 
     }
 
+    @Test
+    @DisplayName("should upload files")
+    void shouldUploadFiles() throws Exception {
+        var file1 = new MockMultipartFile(
+                "file",
+                "test1.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "test1".getBytes()
+        );
+
+        var file2 = new MockMultipartFile(
+                "file",
+                "test2.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "test2".getBytes()
+        );
+        mockMvc.perform(multipart("/uploadFiles")
+                        .file(file1)
+                        .file(file2))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Files uploaded successfully"));
+
+    }
 }
