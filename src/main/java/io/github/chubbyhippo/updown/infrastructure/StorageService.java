@@ -43,16 +43,16 @@ public class StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(
+            var path = this.rootLocation.resolve(
                             Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
                     .normalize().toAbsolutePath();
-            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+            if (!path.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
+                Files.copy(inputStream, path,
                         StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
@@ -77,8 +77,8 @@ public class StorageService {
 
     public Resource loadAsResource(String filename) {
         try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
+            var path = load(filename);
+            var resource = new UrlResource(path.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
