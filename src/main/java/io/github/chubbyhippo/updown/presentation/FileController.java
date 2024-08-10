@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.stream.Stream;
+
 @RestController
 public class FileController {
 
@@ -15,9 +17,16 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/uploadFile")
     public String upload(@RequestParam("file") MultipartFile file) {
         fileService.uploadFile(file);
         return "File uploaded successfully: " + file.getOriginalFilename();
+    }
+
+
+    @PostMapping("/uploadFiles")
+    public String upload(@RequestParam("file") Stream<MultipartFile> files) {
+        files.forEach(fileService::uploadFile);
+        return "Files uploaded successfully";
     }
 }
