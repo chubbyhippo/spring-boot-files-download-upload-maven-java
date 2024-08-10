@@ -30,7 +30,7 @@ class UpDownApplicationMockMvcIntegrationTests {
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
         );
-        mockMvc.perform(multipart("/upload")
+        mockMvc.perform(multipart("/uploadFile")
                         .file(mockMultipartFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
