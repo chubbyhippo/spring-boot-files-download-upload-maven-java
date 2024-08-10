@@ -20,18 +20,18 @@ class UpDownApplicationMockMvcIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
-    private final MockMultipartFile file = new MockMultipartFile(
-            "file",
-            "test.txt",
-            MediaType.TEXT_PLAIN_VALUE,
-            "Hello, World!".getBytes()
-    );
 
     @Test
     @DisplayName("should upload file")
     void shouldUploadFile() throws Exception {
+        var mockMultipartFile = new MockMultipartFile(
+                "file",
+                "test.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes()
+        );
         mockMvc.perform(multipart("/upload")
-                        .file(file)
+                        .file(mockMultipartFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().string("File uploaded successfully: test.txt"));
