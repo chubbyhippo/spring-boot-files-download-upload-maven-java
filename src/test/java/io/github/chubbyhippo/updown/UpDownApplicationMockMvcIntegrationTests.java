@@ -20,7 +20,6 @@ class UpDownApplicationMockMvcIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
     @DisplayName("should upload file")
     void shouldUploadFile() throws Exception {
