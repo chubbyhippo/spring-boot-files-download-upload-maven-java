@@ -1,5 +1,6 @@
 package io.github.chubbyhippo.updown;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -12,8 +13,11 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +30,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     private MockMvc mockMvc;
     @TempDir
     private static Path tempDir;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
@@ -70,6 +76,27 @@ class UpDownApplicationMockMvcIntegrationTests {
                         .file(file2))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Files uploaded successfully"));
+
+    }
+
+    @Test
+    @DisplayName("should list files")
+    void shouldListFiles() throws Exception {
+        var path1 = tempDir.resolve(tempDir + "/testList1.txt");
+        Files.write(path1, "test1".getBytes());
+
+        var path2 = tempDir.resolve(tempDir + "/testList2.txt");
+        Files.write(path2, "test2".getBytes());
+
+        var mvcResult = mockMvc.perform(get("/listFiles")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        var json = mvcResult.getResponse().getContentAsString();
+        var contentAsString = objectMapper.readValue(json, String[].class);
+
+        assertThat(contentAsString).isEqualTo(new String[]{"testList1.txt", "testList2.txt"});
 
     }
 }
