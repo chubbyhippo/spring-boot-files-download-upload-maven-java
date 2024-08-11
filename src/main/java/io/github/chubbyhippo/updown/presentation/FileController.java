@@ -1,6 +1,7 @@
 package io.github.chubbyhippo.updown.presentation;
 
 import io.github.chubbyhippo.updown.application.FileService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +24,14 @@ public class FileController {
         return "File uploaded successfully: " + file.getOriginalFilename();
     }
 
-
     @PostMapping("/uploadFiles")
     public String upload(@RequestParam("file") Stream<MultipartFile> files) {
         files.forEach(fileService::uploadFile);
         return "Files uploaded successfully";
+    }
+
+    @GetMapping("/listFiles")
+    public Stream<String> listFiles() {
+        return fileService.listFiles();
     }
 }
