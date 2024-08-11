@@ -4,6 +4,9 @@ import io.github.chubbyhippo.updown.infrastructure.StorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
 @Service
 public class FileService {
 
@@ -18,5 +21,9 @@ public class FileService {
             throw new RuntimeException("Cannot upload empty file.");
         }
         storageService.store(file);
+    }
+
+    public Stream<String> listFiles() {
+        return storageService.loadAll().map(Path::toString);
     }
 }
