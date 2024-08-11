@@ -1,6 +1,7 @@
 package io.github.chubbyhippo.updown.application;
 
 import io.github.chubbyhippo.updown.infrastructure.StorageService;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,5 +26,9 @@ public class FileService {
 
     public Stream<String> listFiles() {
         return storageService.loadAll().map(Path::toString);
+    }
+
+    public Resource loadAsResource(String filename) {
+        return storageService.loadAsResource(filename);
     }
 }
