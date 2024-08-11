@@ -61,7 +61,7 @@ class UpDownApplicationMockMvcIntegrationTests {
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
         );
-        mockMvc.perform(multipart("/uploadFile")
+        mockMvc.perform(multipart("/file")
                         .file(mockMultipartFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
@@ -85,7 +85,7 @@ class UpDownApplicationMockMvcIntegrationTests {
                 MediaType.TEXT_PLAIN_VALUE,
                 "test2".getBytes()
         );
-        mockMvc.perform(multipart("/uploadFiles")
+        mockMvc.perform(multipart("/files")
                         .file(file1)
                         .file(file2))
                 .andExpect(status().isOk())
@@ -102,7 +102,7 @@ class UpDownApplicationMockMvcIntegrationTests {
         var path2 = tempDir.resolve(tempDir + "/testList2.txt");
         Files.write(path2, "test2".getBytes());
 
-        var mvcResult = mockMvc.perform(get("/listFiles")
+        var mvcResult = mockMvc.perform(get("/files")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
