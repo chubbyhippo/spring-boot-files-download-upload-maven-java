@@ -2,7 +2,6 @@ package io.github.chubbyhippo.updown;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.chubbyhippo.updown.infrastructure.StorageService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,12 +48,8 @@ class UpDownApplicationMockMvcIntegrationTests {
 
     @BeforeEach
     void setUp() {
-        storageService.init();
-    }
-
-    @AfterEach
-    void tearDown() {
         storageService.deleteAll();
+        storageService.init();
     }
 
     @Test
@@ -113,8 +109,9 @@ class UpDownApplicationMockMvcIntegrationTests {
 
         var json = mvcResult.getResponse().getContentAsString();
         var contentAsString = objectMapper.readValue(json, String[].class);
+        var sorted = Arrays.stream(contentAsString).sorted().toArray();
 
-        assertThat(contentAsString).isEqualTo(new String[]{"testList1.txt", "testList2.txt"});
+        assertThat(sorted).isEqualTo(new String[]{"testList1.txt", "testList2.txt"});
 
     }
 }
