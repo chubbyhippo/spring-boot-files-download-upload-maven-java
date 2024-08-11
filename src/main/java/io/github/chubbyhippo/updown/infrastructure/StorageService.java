@@ -7,7 +7,6 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,15 +50,15 @@ public class StorageService {
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, path,
-                        StandardCopyOption.REPLACE_EXISTING);
+            try (var inputStream = file.getInputStream()) {
+                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }
     }
 
+    @SuppressWarnings("resource")
     public Stream<Path> loadAll() {
         try {
             return Files.walk(this.rootLocation, 1)
