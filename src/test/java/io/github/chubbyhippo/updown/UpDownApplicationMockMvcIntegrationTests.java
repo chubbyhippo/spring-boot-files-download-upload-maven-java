@@ -1,6 +1,9 @@
 package io.github.chubbyhippo.updown;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.chubbyhippo.updown.infrastructure.StorageService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -32,10 +35,22 @@ class UpDownApplicationMockMvcIntegrationTests {
     private static Path tempDir;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private StorageService storageService;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("storage.location", () -> tempDir.toString());
+    }
+
+    @BeforeEach
+    void setUp() {
+        storageService.init();
+    }
+
+    @AfterEach
+    void tearDown() {
+        storageService.deleteAll();
     }
 
     @Test
