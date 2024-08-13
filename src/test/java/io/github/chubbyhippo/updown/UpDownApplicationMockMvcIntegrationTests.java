@@ -114,4 +114,15 @@ class UpDownApplicationMockMvcIntegrationTests {
         assertThat(sorted).isEqualTo(new String[]{"testList1.txt", "testList2.txt"});
 
     }
+
+    @Test
+    @DisplayName("should download file")
+    void shouldDownloadFile() throws Exception {
+        var filename = "testfile.txt";
+        var path = tempDir.resolve(tempDir + "/" + filename);
+        Files.write(path, "test".getBytes());
+
+        mockMvc.perform(get("/files/{filename}", filename))
+                .andExpect(status().isOk());
+    }
 }
