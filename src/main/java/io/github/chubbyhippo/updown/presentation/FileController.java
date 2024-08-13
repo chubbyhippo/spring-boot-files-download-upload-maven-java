@@ -33,7 +33,9 @@ public class FileController {
         return fileService.listFiles();
     }
 
-    @GetMapping(value = "/files/{filename:.+}", produces = "application/octet-stream", headers = "Content-Disposition=attachment; filename={filename}")
+    @GetMapping(value = "/files/{filename:.+}",
+            produces = "application/octet-stream",
+            headers = "Content-Disposition=attachment; filename={filename}")
     public Resource serveFile(@PathVariable String filename) {
         return fileService.loadAsResource(filename);
     }
