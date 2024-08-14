@@ -3,6 +3,7 @@ package io.github.chubbyhippo.updown.presentation;
 import io.github.chubbyhippo.updown.application.FileService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +19,8 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/file")
-    public String upload(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String upload(@RequestPart("file") MultipartFile file) {
         fileService.uploadFile(file);
         return "File uploaded successfully: " + file.getOriginalFilename();
     }
