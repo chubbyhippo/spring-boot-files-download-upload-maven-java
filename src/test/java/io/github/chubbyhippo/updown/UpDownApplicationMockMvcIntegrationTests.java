@@ -69,6 +69,23 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
+    @DisplayName("should not upload empty file")
+    void shouldNotUploadEmptyFile() throws Exception {
+
+        var mockMultipartFile = new MockMultipartFile(
+                "file",
+                "empty.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "".getBytes()
+        );
+        mockMvc.perform(multipart("/file")
+                        .file(mockMultipartFile)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Cannot upload empty file."));
+    }
+
+    @Test
     @DisplayName("should upload files")
     void shouldUploadFiles() throws Exception {
         var file1 = new MockMultipartFile(
