@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
@@ -25,8 +26,8 @@ public class FileController {
         return "File uploaded successfully: " + file.getOriginalFilename();
     }
 
-    @PostMapping("/files")
-    public String upload(@RequestParam("file") Stream<MultipartFile> files) {
+    @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String upload(@RequestPart("file") List<MultipartFile> files) {
         files.forEach(fileService::uploadFile);
         return "Files uploaded successfully";
     }
