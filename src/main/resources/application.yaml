@@ -6,3 +6,8 @@ spring:
       enabled: true
 storage:
   location: root
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
