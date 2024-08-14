@@ -1,8 +1,10 @@
 package io.github.chubbyhippo.updown.presentation;
 
 import io.github.chubbyhippo.updown.application.FileService;
+import io.github.chubbyhippo.updown.domain.EmptyFileException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +52,12 @@ public class FileController {
                         "attachment; filename=\"" + resource.getFilename() + "\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
+    }
+
+    @ExceptionHandler(EmptyFileException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleEmptyFileException(EmptyFileException emptyFileException) {
+       return  emptyFileException.getMessage();
     }
 
 }
