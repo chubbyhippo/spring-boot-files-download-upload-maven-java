@@ -12,4 +12,4 @@ management:
       exposure:
         include: "*"
 springdoc:
-  show-actuator: true
+  show-actuator: false
