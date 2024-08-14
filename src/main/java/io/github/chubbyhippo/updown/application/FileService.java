@@ -1,5 +1,6 @@
 package io.github.chubbyhippo.updown.application;
 
+import io.github.chubbyhippo.updown.domain.EmptyFileException;
 import io.github.chubbyhippo.updown.infrastructure.StorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class FileService {
 
     public void uploadFile(MultipartFile file) {
         if (file.isEmpty()) {
-            throw new RuntimeException("Cannot upload empty file.");
+            throw new EmptyFileException("Cannot upload empty file.");
         }
         storageService.store(file);
     }
