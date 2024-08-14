@@ -6,7 +6,4 @@ public class EmptyFileException extends RuntimeException {
         super(message);
     }
 
-    public EmptyFileException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
