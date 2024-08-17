@@ -43,10 +43,6 @@ public class FileController {
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         var resource = fileService.loadAsResource(filename);
 
-        if (resource == null)
-            return ResponseEntity.notFound()
-                    .build();
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + resource.getFilename() + "\"")
