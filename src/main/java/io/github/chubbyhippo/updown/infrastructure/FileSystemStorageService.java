@@ -1,5 +1,6 @@
 package io.github.chubbyhippo.updown.infrastructure;
 
+import io.github.chubbyhippo.updown.domain.StorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,11 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
-public class StorageService {
+public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
 
-    public StorageService(StorageProperties properties) {
+    public FileSystemStorageService(StorageProperties properties) {
 
         if (properties.location().trim().isEmpty()) {
             throw new StorageException("File upload location can not be Empty.");
@@ -37,6 +38,7 @@ public class StorageService {
         }
     }
 
+    @Override
     public void store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
@@ -59,6 +61,7 @@ public class StorageService {
     }
 
     @SuppressWarnings("resource")
+    @Override
     public Stream<Path> loadAll() {
         try {
             return Files.walk(this.rootLocation, 1)
@@ -70,10 +73,12 @@ public class StorageService {
 
     }
 
+    @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
 
+    @Override
     public Resource loadAsResource(String filename) {
         try {
             var path = load(filename);
@@ -90,6 +95,7 @@ public class StorageService {
         }
     }
 
+    @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
