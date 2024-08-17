@@ -1,4 +1,4 @@
-package io.github.chubbyhippo.updown.infrastructure;
+package io.github.chubbyhippo.updown.domain;
 
 public class StorageException extends RuntimeException {
 
