@@ -1,7 +1,7 @@
 package io.github.chubbyhippo.updown;
 
+import io.github.chubbyhippo.updown.infrastructure.FileSystemStorageService;
 import io.github.chubbyhippo.updown.infrastructure.StorageProperties;
-import io.github.chubbyhippo.updown.infrastructure.StorageService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +17,7 @@ public class UpDownApplication {
     }
 
     @Bean
-    ApplicationRunner applicationRunner(StorageService storageService) {
+    ApplicationRunner applicationRunner(FileSystemStorageService storageService) {
         return args -> {
             storageService.deleteAll();
             storageService.init();
