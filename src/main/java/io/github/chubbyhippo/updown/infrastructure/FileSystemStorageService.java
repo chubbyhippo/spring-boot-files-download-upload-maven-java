@@ -1,5 +1,8 @@
 package io.github.chubbyhippo.updown.infrastructure;
 
+import io.github.chubbyhippo.updown.domain.EmptyFileException;
+import io.github.chubbyhippo.updown.domain.StorageException;
+import io.github.chubbyhippo.updown.domain.StorageFileNotFoundException;
 import io.github.chubbyhippo.updown.domain.StorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -30,7 +33,7 @@ public class FileSystemStorageService implements StorageService {
         this.rootLocation = Paths.get(properties.location());
     }
 
-    public void init() {
+    public void init() throws StorageException {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
@@ -39,10 +42,10 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public void store(MultipartFile file) throws EmptyFileException, StorageException {
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
+                throw new EmptyFileException("Failed to store empty file.");
             }
             var path = this.rootLocation.resolve(
                             Path.of(Objects.requireNonNull(file.getOriginalFilename())))
@@ -62,7 +65,7 @@ public class FileSystemStorageService implements StorageService {
 
     @SuppressWarnings("resource")
     @Override
-    public Stream<Path> loadAll() {
+    public Stream<Path> loadAll() throws StorageException {
         try {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
@@ -79,7 +82,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String filename) throws StorageFileNotFoundException {
         try {
             var path = load(filename);
             var resource = new UrlResource(path.toUri());
