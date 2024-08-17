@@ -1,7 +1,7 @@
 package io.github.chubbyhippo.updown.application;
 
 import io.github.chubbyhippo.updown.domain.EmptyFileException;
-import io.github.chubbyhippo.updown.infrastructure.StorageService;
+import io.github.chubbyhippo.updown.domain.StorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
