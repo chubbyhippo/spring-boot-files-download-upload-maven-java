@@ -68,7 +68,6 @@ class UpDownApplicationMockMvcIntegrationTests {
 
     }
 
-
     @Test
     @DisplayName("should upload files")
     void shouldUploadFiles() throws Exception {
