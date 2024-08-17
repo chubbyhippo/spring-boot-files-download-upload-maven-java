@@ -43,7 +43,7 @@ public class StorageService {
                 throw new StorageException("Failed to store empty file.");
             }
             var path = this.rootLocation.resolve(
-                            Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
+                            Path.of(Objects.requireNonNull(file.getOriginalFilename())))
                     .normalize().toAbsolutePath();
             if (!path.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
