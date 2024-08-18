@@ -16,7 +16,9 @@ class FileSystemStorageServiceTest {
     @DisplayName("should throw exception when root path is empty")
     void shouldThrowExceptionWhenRootPathIsEmpty() {
         assertThatThrownBy(() -> new FileSystemStorageService(new StorageProperties("")))
-                .isInstanceOf(StorageException.class);
+                .isInstanceOf(StorageException.class)
+                .hasMessage("File upload location can not be Empty.");
+
     }
 
 }
