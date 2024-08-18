@@ -10,6 +10,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,5 +31,14 @@ class FileServiceTest {
         fileService.uploadFile(file);
         verify(storageService).store(file);
     }
+
+    @Test
+    @DisplayName("should list files")
+    void shouldListFiles() {
+        fileService.listFiles();
+        verify(storageService).loadAll();
+    }
+
+
 
 }
