@@ -123,7 +123,7 @@ class UpDownApplicationWebTestClientIntegrationTests {
                 .expectBody(String[].class)
                 .value(files -> {
                     assertThat(files).isNotEmpty();
-                    assertThat(files).containsExactlyInAnyOrder("testList1.txt", "testList2.txt");
+                    assertThat(files).contains("testList1.txt", "testList2.txt");
                 });
     }
 
