@@ -26,7 +26,8 @@ public class FileService {
     }
 
     public Stream<String> listFiles() {
-        return storageService.loadAll().map(Path::toString);
+        return storageService.loadAll()
+                .map(Path::toString);
     }
 
     public Resource loadAsResource(String filename) {
