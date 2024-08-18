@@ -2,6 +2,7 @@ package io.github.chubbyhippo.updown.infrastructure;
 
 import io.github.chubbyhippo.updown.domain.EmptyFileException;
 import io.github.chubbyhippo.updown.domain.StorageException;
+import io.github.chubbyhippo.updown.domain.StorageFileNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -91,6 +92,17 @@ class FileSystemStorageServiceTest {
         assertThatThrownBy(() -> service.store(multipartFile))
                 .isInstanceOf(StorageException.class)
                 .hasMessage("Failed to store file.");
+    }
+
+    @Test
+    @DisplayName("should throw exception when file not found")
+    void shouldThrowExceptionWhenFileNotFound() {
+        var filename = "nonexistentfile.txt";
+        var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
+
+        assertThatThrownBy(() -> service.loadAsResource(filename))
+                .isInstanceOf(StorageFileNotFoundException.class)
+                .hasMessage("Could not read file: %s".formatted(filename));
     }
 
 }
