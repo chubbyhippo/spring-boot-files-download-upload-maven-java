@@ -11,7 +11,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +22,6 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import java.io.IOException;
@@ -59,12 +57,12 @@ class UpDownApplicationWebTestClientIntegrationTests {
     @Test
     @DisplayName("should upload file")
     void shouldUploadFile() {
+
         var filename = "hello.txt";
         var multipartBodyBuilder = new MultipartBodyBuilder();
         multipartBodyBuilder.part("file", "test".getBytes())
                 .contentType(MediaType.TEXT_PLAIN)
                 .filename(filename);
-
 
         webTestClient.post()
                 .uri("/file")
