@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(FileController.class)
 @Execution(ExecutionMode.CONCURRENT)
-class FileControllerTest {
+class FileControllerMockMvcTest {
 
     @Autowired
     private MockMvc mockMvc;
