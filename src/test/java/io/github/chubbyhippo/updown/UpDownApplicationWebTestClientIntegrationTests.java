@@ -39,8 +39,6 @@ class UpDownApplicationWebTestClientIntegrationTests {
     @TempDir
     private static Path tempDir;
     @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
     private StorageService storageService;
 
     @DynamicPropertySource
