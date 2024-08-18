@@ -144,22 +144,15 @@ class UpDownApplicationWebTestClientIntegrationTests {
     @Test
     @DisplayName("should return bad request when upload an empty file")
     void shouldReturnBadRequestWhenUploadAnEmptyFile() throws IOException {
-        var mockMultipartFile = new MockMultipartFile(
-                "file",
-                "empty.txt",
-                MediaType.TEXT_PLAIN_VALUE,
-                "".getBytes()
-        );
-
-        MultiValueMap<String, HttpEntity<?>> body = new LinkedMultiValueMap<>();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<Resource> filePart = new HttpEntity<>(new ByteArrayResource(mockMultipartFile.getBytes()), headers);
-        body.add("file", filePart);
+        var filename = "hello.txt";
+        var multipartBodyBuilder = new MultipartBodyBuilder();
+        multipartBodyBuilder.part("file", "".getBytes())
+                .contentType(MediaType.TEXT_PLAIN)
+                .filename(filename);
 
         webTestClient.post().uri("/file")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
-                .bodyValue(body)
+                .body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
                 .exchange()
                 .expectStatus().isBadRequest()
                 .expectBody(String.class)
