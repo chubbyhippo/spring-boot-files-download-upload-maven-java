@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,4 +106,15 @@ class FileSystemStorageServiceTest {
                 .hasMessage("Could not read file: %s".formatted(filename));
     }
 
+    @Test
+    @DisplayName("should throw exception when url is malformed")
+    void shouldThrowExceptionWhenUrlIsMalformed() {
+
+        var filename = "nonex.sdf.2..22.2.2..//j'\\\\istentfile.txt";
+        var service = new FileSystemStorageService(new StorageProperties("test.txt"));
+
+        assertThatThrownBy(() -> service.loadAsResource(filename))
+                .isInstanceOf(StorageFileNotFoundException.class)
+                .hasMessage("Could not read file: %s".formatted(filename));
+    }
 }
