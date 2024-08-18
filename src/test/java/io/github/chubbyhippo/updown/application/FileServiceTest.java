@@ -10,9 +10,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,7 +17,6 @@ class FileServiceTest {
 
     @Mock
     private StorageService storageService;
-
     @InjectMocks
     private FileService fileService;
 
