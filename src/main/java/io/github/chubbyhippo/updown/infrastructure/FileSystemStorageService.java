@@ -90,7 +90,7 @@ public class FileSystemStorageService implements StorageService {
                 return resource;
             } else {
                 throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
+                        "Could not read file: %s".formatted(filename));
 
             }
         } catch (MalformedURLException e) {
