@@ -78,4 +78,19 @@ class FileSystemStorageServiceTest {
                 .hasMessage("Cannot store file outside current directory.");
     }
 
+    @Test
+    @DisplayName("should throw exception when cannot store file")
+    void shouldThrowExceptionWhenCannotStoreFile() throws IOException {
+
+        var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
+
+        var multipartFile = mock(MultipartFile.class);
+        when(multipartFile.getOriginalFilename()).thenReturn("file.txt");
+        when(multipartFile.getInputStream()).thenThrow(new IOException());
+
+        assertThatThrownBy(() -> service.store(multipartFile))
+                .isInstanceOf(StorageException.class)
+                .hasMessage("Failed to store file.");
+    }
+
 }
