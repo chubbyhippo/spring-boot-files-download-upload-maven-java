@@ -7,13 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FileServiceTest {
@@ -26,7 +24,7 @@ class FileServiceTest {
     @Test
     @DisplayName("should upload a file")
     void shouldUploadAFile() {
-        var file = Mockito.mock(MultipartFile.class);
+        var file = mock(MultipartFile.class);
         fileService.uploadFile(file);
         verify(storageService).store(file);
     }
@@ -49,9 +47,8 @@ class FileServiceTest {
     @Test
     @DisplayName("should throw if upload empty file")
     void shouldThrowIfUploadEmptyFile() {
-        var file = new MockMultipartFile(
-                "test.txt",
-                "".getBytes());
+        var file = mock(MultipartFile.class);
+        when(file.isEmpty()).thenReturn(true);
         assertThatThrownBy(() -> fileService.uploadFile(file))
                 .isInstanceOf(EmptyFileException.class);
     }
