@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +62,20 @@ class FileSystemStorageServiceTest {
                 .isInstanceOf(EmptyFileException.class)
                 .hasMessage("Failed to store empty file.");
 
+    }
+
+    @Test
+    @DisplayName("should throw exception when storing file outside the root")
+    void shouldThrowExceptionWhenStoringFileOutsideTheRoot() {
+
+        var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
+
+        var multipartFile = mock(MultipartFile.class);
+        when(multipartFile.getOriginalFilename()).thenReturn("../file.txt");
+
+        assertThatThrownBy(() -> service.store(multipartFile))
+                .isInstanceOf(StorageException.class)
+                .hasMessage("Cannot store file outside current directory.");
     }
 
 }
