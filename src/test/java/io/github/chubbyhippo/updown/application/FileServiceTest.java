@@ -1,5 +1,6 @@
 package io.github.chubbyhippo.updown.application;
 
+import io.github.chubbyhippo.updown.domain.EmptyFileException;
 import io.github.chubbyhippo.updown.domain.StorageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,8 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,6 +44,16 @@ class FileServiceTest {
         var file = "test.txt";
         fileService.loadAsResource(file);
         verify(storageService).loadAsResource(file);
+    }
+
+    @Test
+    @DisplayName("should throw if upload empty file")
+    void shouldThrowIfUploadEmptyFile() {
+        var file = new MockMultipartFile(
+                "test.txt",
+                "".getBytes());
+        assertThatThrownBy(() -> fileService.uploadFile(file))
+                .isInstanceOf(EmptyFileException.class);
     }
 
 }
