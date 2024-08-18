@@ -98,7 +98,7 @@ class FileSystemStorageServiceTest {
     @DisplayName("should throw exception when file not found")
     void shouldThrowExceptionWhenFileNotFound() {
         var filename = "nonexistentfile.txt";
-        var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
+        var service = new FileSystemStorageService(new StorageProperties("test.txt"));
 
         assertThatThrownBy(() -> service.loadAsResource(filename))
                 .isInstanceOf(StorageFileNotFoundException.class)
