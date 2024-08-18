@@ -109,6 +109,7 @@ class UpDownApplicationMockMvcIntegrationTests {
         var files = objectMapper.readValue(json, String[].class);
 
         assertThat(files).isNotEmpty();
+        assertThat(files).contains("testList1.txt", "testList2.txt");
 
     }
 
