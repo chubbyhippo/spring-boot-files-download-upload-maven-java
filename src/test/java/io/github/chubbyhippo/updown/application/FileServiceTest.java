@@ -39,6 +39,12 @@ class FileServiceTest {
         verify(storageService).loadAll();
     }
 
-
+    @Test
+    @DisplayName("should load as resource")
+    void shouldLoadAsResource() {
+        var file = "test.txt";
+        fileService.loadAsResource(file);
+        verify(storageService).loadAsResource(file);
+    }
 
 }
