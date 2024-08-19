@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Execution(ExecutionMode.CONCURRENT)
+@Execution(ExecutionMode.SAME_THREAD)
 class UpDownApplicationWebTestClientIntegrationTests {
 
     @Autowired
