@@ -9,6 +9,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,8 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -96,6 +100,28 @@ public class FileSystemStorageService implements StorageService {
         } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: %s".formatted(filename), e);
         }
+    }
+
+    @Override
+    public StreamingResponseBody zipFiles(List<String> filenames) {
+        return outputStream -> {
+            try (var zos = new ZipOutputStream(outputStream)) {
+                for (var filename : filenames) {
+                    var filePath = rootLocation.resolve(filename);
+                    try (var fis = Files.newInputStream(filePath)) {
+                        zos.putNextEntry(new ZipEntry(filename));
+                        var buffer = new byte[1024];
+                        int len;
+                        while ((len = fis.read(buffer)) != -1) {
+                            zos.write(buffer, 0, len);
+                        }
+                        zos.closeEntry();
+                    } catch (IOException e) {
+                        throw new StorageException("Failed to read file: %s".formatted(filename), e);
+                    }
+                }
+            }
+        };
     }
 
     @Override
