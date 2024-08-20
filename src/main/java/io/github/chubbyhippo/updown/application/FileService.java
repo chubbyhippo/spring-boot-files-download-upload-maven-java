@@ -5,8 +5,10 @@ import io.github.chubbyhippo.updown.domain.StorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -32,5 +34,9 @@ public class FileService {
 
     public Resource loadAsResource(String filename) {
         return storageService.loadAsResource(filename);
+    }
+
+    public StreamingResponseBody zipFiles(List<String> filenames) {
+        return storageService.zipFiles(filenames);
     }
 }
