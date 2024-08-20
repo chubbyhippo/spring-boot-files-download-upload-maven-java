@@ -110,7 +110,7 @@ class FileSystemStorageServiceTest {
     @DisplayName("should throw exception when url is malformed")
     void shouldThrowExceptionWhenUrlIsMalformed() {
 
-        var filename = "nonex.sdf.2..22.2.2..//j'\\\\istentfile.txt";
+        var filename = "../malformedfile.txt";
         var service = new FileSystemStorageService(new StorageProperties("test.txt"));
 
         assertThatThrownBy(() -> service.loadAsResource(filename))
