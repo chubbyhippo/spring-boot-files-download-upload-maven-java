@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -46,6 +47,16 @@ public class FileController {
                         "attachment; filename=\"" + resource.getFilename() + "\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
+    }
+
+    @PostMapping
+    public ResponseEntity<StreamingResponseBody> zipFiles(@RequestBody List<String> filenames) {
+        var streamingResponseBody = fileService.zipFiles(filenames);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"files.zip\"")
+                .body(streamingResponseBody);
+
     }
 
 }
