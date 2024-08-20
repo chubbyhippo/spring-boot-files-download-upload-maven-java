@@ -55,6 +55,7 @@ public class FileController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"files.zip\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(streamingResponseBody);
 
     }
