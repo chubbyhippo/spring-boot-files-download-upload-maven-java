@@ -1,6 +1,7 @@
 package io.github.chubbyhippo.updown;
 
 import io.github.chubbyhippo.updown.domain.StorageService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,11 @@ class UpDownApplicationWebTestClientIntegrationTests {
     void setUp() {
         storageService.deleteAll();
         storageService.init();
+    }
+
+    @AfterEach
+    void tearDown() {
+        storageService.deleteAll();
     }
 
     @Test
