@@ -2,8 +2,10 @@ package io.github.chubbyhippo.updown.domain;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface StorageService {
@@ -16,6 +18,8 @@ public interface StorageService {
     Path load(String filename);
 
     Resource loadAsResource(String filename) throws StorageFileNotFoundException;
+
+    StreamingResponseBody zipFiles(List<String> filenames);
 
     void deleteAll();
 }
