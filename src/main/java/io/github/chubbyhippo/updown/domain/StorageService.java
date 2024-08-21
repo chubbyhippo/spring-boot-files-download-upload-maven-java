@@ -15,8 +15,6 @@ public interface StorageService {
 
     Stream<Path> loadAll() throws StorageException;
 
-    Path load(String filename);
-
     Resource loadAsResource(String filename) throws StorageFileNotFoundException;
 
     StreamingResponseBody zipFiles(List<String> filenames);
