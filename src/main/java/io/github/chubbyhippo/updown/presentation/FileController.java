@@ -50,8 +50,9 @@ public class FileController {
     }
 
     @PostMapping("/zip")
-    public ResponseEntity<StreamingResponseBody> zipFiles(@RequestBody Stream<String> filenames) {
-        var streamingResponseBody = fileService.zipFiles(filenames);
+    public ResponseEntity<StreamingResponseBody> zipFiles(@RequestBody List<String> filenames) {
+
+        var streamingResponseBody = fileService.zipFiles(filenames.stream());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"files.zip\"")
