@@ -22,8 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -147,5 +146,26 @@ class UpDownApplicationMockMvcIntegrationTests {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Cannot upload empty file."));
+    }
+
+    @Test
+    @DisplayName("should return zip")
+    void shouldReturnZip() throws Exception {
+
+        var filenames = new String[]{"test1.txt", "test2.txt"};
+
+        var path1 = tempDir.resolve(tempDir + filenames[0]);
+        Files.write(path1, "test1".getBytes());
+        var path2 = tempDir.resolve(tempDir + filenames[1]);
+        Files.write(path2, "test2".getBytes());
+
+        var jsonFilenames = objectMapper.writeValueAsString(filenames);
+
+        mockMvc.perform(post("/zip")
+                        .content(jsonFilenames)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_OCTET_STREAM))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM));
     }
 }
