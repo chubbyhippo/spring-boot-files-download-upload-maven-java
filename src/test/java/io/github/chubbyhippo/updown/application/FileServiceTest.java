@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -54,6 +56,14 @@ class FileServiceTest {
         when(file.isEmpty()).thenReturn(true);
         assertThatThrownBy(() -> fileService.uploadFile(file))
                 .isInstanceOf(EmptyFileException.class);
+    }
+
+    @Test
+    @DisplayName("should return zip stream response body")
+    void shouldReturnZipStreamResponseBody() {
+        var stringStream = Stream.of("file1.txt", "file2.txt");
+        fileService.zipFiles(stringStream);
+        verify(storageService).zipFiles(stringStream);
     }
 
 
