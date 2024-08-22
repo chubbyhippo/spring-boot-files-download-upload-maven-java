@@ -102,10 +102,10 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public StreamingResponseBody zipFiles(List<String> filenames) {
+    public StreamingResponseBody zipFiles(Stream<String> filenames) {
         return outputStream -> {
             try (var zos = new ZipOutputStream(outputStream)) {
-                for (var filename : filenames) {
+                filenames.forEach(filename -> {
                     var filePath = rootLocation.resolve(filename);
                     try (var fis = Files.newInputStream(filePath)) {
                         zos.putNextEntry(new ZipEntry(filename));
@@ -118,7 +118,7 @@ public class FileSystemStorageService implements StorageService {
                     } catch (IOException e) {
                         throw new StorageException("Failed to read file: %s".formatted(filename), e);
                     }
-                }
+                });
             }
         };
     }
