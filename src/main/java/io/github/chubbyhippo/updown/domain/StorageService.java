@@ -17,7 +17,7 @@ public interface StorageService {
 
     Resource loadAsResource(String filename) throws StorageFileNotFoundException;
 
-    StreamingResponseBody zipFiles(List<String> filenames);
+    StreamingResponseBody zipFiles(Stream<String> filenames);
 
     void deleteAll();
 }
