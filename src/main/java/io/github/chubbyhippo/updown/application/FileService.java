@@ -36,7 +36,7 @@ public class FileService {
         return storageService.loadAsResource(filename);
     }
 
-    public StreamingResponseBody zipFiles(List<String> filenames) {
+    public StreamingResponseBody zipFiles(Stream<String> filenames) {
         return storageService.zipFiles(filenames);
     }
 }
