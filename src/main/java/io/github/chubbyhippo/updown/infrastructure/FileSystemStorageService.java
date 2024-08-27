@@ -108,7 +108,7 @@ public class FileSystemStorageService implements StorageService {
                     var filePath = rootLocation.resolve(filename);
                     try (var fis = Files.newInputStream(filePath)) {
                         zos.putNextEntry(new ZipEntry(filename));
-                        var buffer = new byte[1024];
+                        var buffer = new byte[4096];
                         int len;
                         while ((len = fis.read(buffer)) != -1) {
                             zos.write(buffer, 0, len);
