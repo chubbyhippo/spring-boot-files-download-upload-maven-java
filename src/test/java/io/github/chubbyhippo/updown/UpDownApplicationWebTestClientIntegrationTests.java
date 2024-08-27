@@ -116,7 +116,7 @@ class UpDownApplicationWebTestClientIntegrationTests {
     @DisplayName("should download file")
     void shouldDownloadFile() throws Exception {
         var filename = "testfile.txt";
-        var path = tempDir.resolve(tempDir + "/" + filename);
+        var path = tempDir.resolve(filename);
         Files.write(path, "test".getBytes());
 
         webTestClient.get().uri("/files/{filename}", filename)
