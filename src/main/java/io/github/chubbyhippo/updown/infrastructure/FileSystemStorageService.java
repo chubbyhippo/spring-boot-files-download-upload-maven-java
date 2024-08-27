@@ -79,14 +79,10 @@ public class FileSystemStorageService implements StorageService {
 
     }
 
-    private Path load(String filename) {
-        return rootLocation.resolve(filename);
-    }
-
     @Override
     public Resource loadAsResource(String filename) throws StorageFileNotFoundException {
         try {
-            var path = load(filename);
+            var path = rootLocation.resolve(filename);
             var resource = new UrlResource(path.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
