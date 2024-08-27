@@ -100,10 +100,10 @@ class UpDownApplicationMockMvcIntegrationTests {
     @Test
     @DisplayName("should list files")
     void shouldListFiles() throws Exception {
-        var path1 = tempDir.resolve(tempDir + "/testList1.txt");
+        var path1 = tempDir.resolve("testList1.txt");
         Files.write(path1, "test1".getBytes());
 
-        var path2 = tempDir.resolve(tempDir + "/testList2.txt");
+        var path2 = tempDir.resolve("testList2.txt");
         Files.write(path2, "test2".getBytes());
 
         var mvcResult = mockMvc.perform(get("/files")
