@@ -69,8 +69,9 @@ public class FileSystemStorageService implements StorageService {
     @SuppressWarnings("resource")
     @Override
     public Stream<Path> loadAll() throws StorageException {
+        var directoryTraversalDepth = 1;
         try {
-            return Files.walk(rootLocation, 1)
+            return Files.walk(rootLocation, directoryTraversalDepth)
                     .filter(path -> !path.equals(rootLocation))
                     .map(rootLocation::relativize);
         } catch (IOException e) {
