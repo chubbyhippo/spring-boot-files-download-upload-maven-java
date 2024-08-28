@@ -50,10 +50,10 @@ public class FileSystemStorageService implements StorageService {
             if (file.isEmpty()) {
                 throw new EmptyFileException("Failed to store empty file.");
             }
-            var path = this.rootLocation.resolve(
+            var path = rootLocation.resolve(
                             Path.of(Objects.requireNonNull(file.getOriginalFilename())))
                     .normalize().toAbsolutePath();
-            if (!path.getParent().equals(this.rootLocation.toAbsolutePath())) {
+            if (!path.getParent().equals(rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
@@ -70,9 +70,9 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public Stream<Path> loadAll() throws StorageException {
         try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
+            return Files.walk(rootLocation, 1)
+                    .filter(path -> !path.equals(rootLocation))
+                    .map(rootLocation::relativize);
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
