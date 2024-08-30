@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -126,5 +127,19 @@ class FileSystemStorageServiceTest {
         var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
         tempDir.resolve("test.txt");
         assertThat(service.loadAll()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("should return zipped streaming response body")
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    void shouldReturnZippedStreamingResponseBody() {
+
+        var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
+        tempDir.resolve("test1.txt");
+        tempDir.resolve("test2.txt");
+
+        var streamingResponseBody = service.zipFiles(Stream.of("test1.txt", "test2.txt"));
+        assertThat(streamingResponseBody).isNotNull();
+
     }
 }
