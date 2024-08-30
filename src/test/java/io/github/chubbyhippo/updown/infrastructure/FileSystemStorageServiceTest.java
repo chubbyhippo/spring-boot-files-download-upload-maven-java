@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -116,5 +117,14 @@ class FileSystemStorageServiceTest {
         assertThatThrownBy(() -> service.loadAsResource(filename))
                 .isInstanceOf(StorageFileNotFoundException.class)
                 .hasMessage("Could not read file: %s".formatted(filename));
+    }
+
+    @Test
+    @DisplayName("should return stream of path")
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    void shouldReturnStreamOfPath() {
+        var service = new FileSystemStorageService(new StorageProperties(tempDir.toString()));
+        tempDir.resolve("test.txt");
+        assertThat(service.loadAll()).isNotNull();
     }
 }
