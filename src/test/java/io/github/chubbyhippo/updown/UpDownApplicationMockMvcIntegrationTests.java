@@ -130,7 +130,7 @@ class UpDownApplicationMockMvcIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM))
                 .andExpect(header().string("Content-Disposition",
-                        "attachment; filename=" + "\"" + filename + "\""));
+                        "attachment; filename*=UTF-8''" + filename));
     }
 
     @Test
