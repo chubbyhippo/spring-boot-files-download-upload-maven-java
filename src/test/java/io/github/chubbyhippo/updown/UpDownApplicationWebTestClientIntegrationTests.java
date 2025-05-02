@@ -123,7 +123,7 @@ class UpDownApplicationWebTestClientIntegrationTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .expectHeader().valueEquals(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
+                .expectHeader().valueEquals(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + filename);
     }
 
     @Test
