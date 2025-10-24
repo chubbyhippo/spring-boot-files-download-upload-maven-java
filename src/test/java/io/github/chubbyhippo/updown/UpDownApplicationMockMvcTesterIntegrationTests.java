@@ -137,7 +137,7 @@ public class UpDownApplicationMockMvcTesterIntegrationTests {
 
     @Test
     @DisplayName("should return bad request when upload an empty file")
-    void shouldReturnBadRequestWhenUploadAnEmptyFile() throws Exception {
+    void shouldReturnBadRequestWhenUploadAnEmptyFile() {
         var mockMultipartFile = new MockMultipartFile(
                 "file",
                 "empty.txt",
