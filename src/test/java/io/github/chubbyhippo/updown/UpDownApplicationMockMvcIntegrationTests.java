@@ -165,6 +165,7 @@ class UpDownApplicationMockMvcIntegrationTests {
         Files.write(path2, "test2".getBytes());
 
         var jsonFilenames = objectMapper.writeValueAsString(filenames);
+        System.out.println(jsonFilenames);
         mockMvc.perform(post("/zip")
                         .content(jsonFilenames)
                         .contentType(MediaType.APPLICATION_JSON)
