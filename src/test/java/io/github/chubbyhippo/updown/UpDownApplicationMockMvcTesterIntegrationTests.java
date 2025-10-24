@@ -74,7 +74,7 @@ public class UpDownApplicationMockMvcTesterIntegrationTests {
 
     @Test
     @DisplayName("should upload files")
-    void shouldUploadFiles() throws Exception {
+    void shouldUploadFiles() {
         var file1 = new MockMultipartFile(
                 "file",
                 "test1.txt",
