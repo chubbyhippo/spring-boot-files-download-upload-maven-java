@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -155,11 +156,11 @@ public class UpDownApplicationMockMvcTesterIntegrationTests {
     @Test
     @DisplayName("should return zip")
     void shouldReturnZip() throws Exception {
-        var filenames = new String[]{"test1.txt", "test2.txt"};
+        var filenames = List.of("test1.txt", "test2.txt");
 
-        var path1 = tempDir.resolve(filenames[0]);
+        var path1 = tempDir.resolve(filenames.getFirst());
         Files.write(path1, "test1".getBytes());
-        var path2 = tempDir.resolve(filenames[1]);
+        var path2 = tempDir.resolve(filenames.getLast());
         Files.write(path2, "test2".getBytes());
 
         var jsonFilenames = objectMapper.writeValueAsString(filenames);
