@@ -62,8 +62,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
-    @DisplayName("should upload file")
-    void shouldUploadFile() throws Exception {
+    @DisplayName("test upload file")
+    void testUploadFile() throws Exception {
         var mockMultipartFile = new MockMultipartFile(
                 "file",
                 "hello.txt",
@@ -79,8 +79,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
-    @DisplayName("should upload files")
-    void shouldUploadFiles() throws Exception {
+    @DisplayName("test upload files")
+    void testUploadFiles() throws Exception {
         var file1 = new MockMultipartFile(
                 "file",
                 "test1.txt",
@@ -103,8 +103,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
-    @DisplayName("should list files")
-    void shouldListFiles() throws Exception {
+    @DisplayName("test list files")
+    void testListFiles() throws Exception {
         var path1 = tempDir.resolve("testList1.txt");
         Files.write(path1, "test1".getBytes());
 
@@ -125,8 +125,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
-    @DisplayName("should download file")
-    void shouldDownloadFile() throws Exception {
+    @DisplayName("test download file")
+    void testDownloadFile() throws Exception {
         var filename = "testfile.txt";
         var path = tempDir.resolve(filename);
         Files.write(path, "test".getBytes());
@@ -139,8 +139,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
-    @DisplayName("should return bad request when upload an empty file")
-    void shouldReturnBadRequestWhenUploadAnEmptyFile() throws Exception {
+    @DisplayName("test return bad request when uploading an empty file")
+    void testReturnBadRequestWhenUploadingAnEmptyFile() throws Exception {
         var mockMultipartFile = new MockMultipartFile(
                 "file",
                 "empty.txt",
@@ -155,9 +155,8 @@ class UpDownApplicationMockMvcIntegrationTests {
     }
 
     @Test
-    @DisplayName("should return zip")
-    void shouldReturnZip() throws Exception {
-
+    @DisplayName("test download zip")
+    void testDownloadZip() throws Exception {
         var filenames = List.of("test1.txt", "test2.txt");
 
         var path1 = tempDir.resolve(filenames.getFirst());
