@@ -159,9 +159,9 @@ class UpDownApplicationMockMvcIntegrationTests {
 
         var filenames = new String[]{"test1.txt", "test2.txt"};
 
-        var path1 = tempDir.resolve(tempDir + filenames[0]);
+        var path1 = tempDir.resolve(filenames[0]);
         Files.write(path1, "test1".getBytes());
-        var path2 = tempDir.resolve(tempDir + filenames[1]);
+        var path2 = tempDir.resolve(filenames[1]);
         Files.write(path2, "test2".getBytes());
 
         var jsonFilenames = objectMapper.writeValueAsString(filenames);
