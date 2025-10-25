@@ -113,7 +113,12 @@ class UpDownApplicationMockMvcIntegrationRestdocsTests {
                         .file(file1)
                         .file(file2))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Files uploaded successfully"));
+                .andExpect(content().string("Files uploaded successfully"))
+                .andDo(document("upload-files",
+                        requestParts(
+                                partWithName("file").description("Files to upload")
+                        ),
+                        responseBody()));
 
     }
 
