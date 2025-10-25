@@ -30,7 +30,6 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.responseH
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestPartFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseBody;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
@@ -166,7 +165,9 @@ class UpDownApplicationMockMvcIntegrationRestdocsTests {
                         .file(mockMultipartFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Cannot upload empty file."));
+                .andExpect(content().string("Cannot upload empty file."))
+                .andDo(document("upload-empty-file-error",
+                        responseBody()));
     }
 
     @Test
