@@ -25,7 +25,11 @@ import java.nio.file.Path;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestPartFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseBody;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
@@ -184,6 +188,14 @@ class UpDownApplicationMockMvcIntegrationRestdocsTests {
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"files.zip\""))
-                .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM));
+                .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM))
+                .andDo(document("download-zip",
+                        requestFields(
+                                fieldWithPath("[]").description("Array of filenames to include in the zip")
+                        ),
+                        responseHeaders(
+                                headerWithName("Content-Disposition").description("Attachment header with zip filename"),
+                                headerWithName("Content-Type").description("Content type of the response")
+                        )));
     }
 }
