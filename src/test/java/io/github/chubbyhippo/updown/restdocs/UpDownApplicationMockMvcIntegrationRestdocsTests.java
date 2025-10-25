@@ -31,6 +31,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseBody;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -128,6 +129,10 @@ class UpDownApplicationMockMvcIntegrationRestdocsTests {
         var mvcResult = mockMvc.perform(get("/files")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(document("list-files",
+                        responseFields(
+                                fieldWithPath("[]").description("Array of filenames")
+                        )))
                 .andReturn();
 
         var json = mvcResult.getResponse().getContentAsString();
