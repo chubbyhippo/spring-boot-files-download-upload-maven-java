@@ -1,6 +1,5 @@
 package io.github.chubbyhippo.updown;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.chubbyhippo.updown.domain.StorageService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,14 +9,15 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,7 +41,7 @@ class UpDownApplicationMockMvcIntegrationTests {
     @TempDir
     private static Path tempDir;
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper jsonMapper;
     @Autowired
     private StorageService storageService;
 
@@ -117,7 +117,7 @@ class UpDownApplicationMockMvcIntegrationTests {
                 .andReturn();
 
         var json = mvcResult.getResponse().getContentAsString();
-        var files = objectMapper.readValue(json, String[].class);
+        var files = jsonMapper.readValue(json, String[].class);
 
         assertThat(files).isNotEmpty()
                 .contains("testList1.txt", "testList2.txt");
@@ -164,7 +164,7 @@ class UpDownApplicationMockMvcIntegrationTests {
         var path2 = tempDir.resolve(filenames.getLast());
         Files.write(path2, "test2".getBytes());
 
-        var jsonFilenames = objectMapper.writeValueAsString(filenames);
+        var jsonFilenames = jsonMapper.writeValueAsString(filenames);
         System.out.println(jsonFilenames);
         mockMvc.perform(post("/zip")
                         .content(jsonFilenames)
