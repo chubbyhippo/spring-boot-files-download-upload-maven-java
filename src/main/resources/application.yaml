@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: UpDown
+  threads:
+    virtual:
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10GB
+      max-request-size: 10GB
+storage:
+  location: root
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+springdoc:
+  show-actuator: false
