@@ -1,16 +1,16 @@
 package io.github.chubbyhippo.updown.presentation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.chubbyhippo.updown.application.FileService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -32,7 +32,7 @@ class FileControllerMockMvcTest {
     @MockitoBean
     private FileService fileService;
     @Autowired
-    private ObjectMapper jacksonObjectMapper;
+    private JsonMapper jsonMapper;
 
     @Test
     @DisplayName("should upload a file")
@@ -86,7 +86,7 @@ class FileControllerMockMvcTest {
                 .andReturn();
 
         var json = mvcResult.getResponse().getContentAsString();
-        var contentAsString = jacksonObjectMapper.readValue(json, String[].class);
+        var contentAsString = jsonMapper.readValue(json, String[].class);
         var sorted = Arrays.stream(contentAsString).sorted().toArray();
 
         assertThat(sorted).isEqualTo(new String[]{"testList1.txt", "testList2.txt"});
